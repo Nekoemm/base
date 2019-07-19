@@ -21,3 +21,9 @@ read push_choice
 
 if [ ${push_choice} =y ]
 then echo trying to push to origin master...
+git push origin master
+$user
+$pwd
+else echo Not pushed
+fi
+done
