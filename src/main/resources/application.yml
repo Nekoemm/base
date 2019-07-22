@@ -1,0 +1,29 @@
+server:
+  port: 8080
+spring:
+  freemarker:
+    template-loader-path: classpath:/templates
+    cache: false
+    charset: UTF-8
+    check-template-location: true
+    content-type: text/html
+    expose-request-attributes: false
+    expose-session-attributes: false
+    request-context-attribute: request
+    suffix: ftl
+  datasource:
+    username: root
+    password: root
+    url: jdbc:mysql://localhost:3306/base?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC
+    driver-class-name: com.mysql.jdbc.Driver
+mybatis:
+  mapper-locations: classpath:/mapping/**Mapper.xml
+  type-aliases-package: com.wd.base.entity
+
+  #showSql
+logging:
+  level:
+    com:
+      wd:
+        base:
+          dao: debug
