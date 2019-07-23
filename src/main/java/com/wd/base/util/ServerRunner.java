@@ -1,4 +1,4 @@
-package com.wd.util;
+package com.wd.base.util;
 
 
 import com.corundumstudio.socketio.SocketIOServer;

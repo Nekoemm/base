@@ -1,4 +1,4 @@
-package com.wd.util;
+package com.wd.base.util;
 
 import com.corundumstudio.socketio.AuthorizationListener;
 import com.corundumstudio.socketio.HandshakeData;
@@ -16,7 +16,7 @@ public class NettySocketConfig {
         // 设置主机名
         config.setHostname("localhost");
         //设置端口号
-        config.setPort(1001);
+        config.setPort(9092);
 
         // 协议升级超时时间（毫秒），默认10000。HTTP握手升级为ws协议超时时间
         config.setUpgradeTimeout(10000);

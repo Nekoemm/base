@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+this is welcome page<br/>
+
+<form action="return false">
+    <span>用户名：</span><input type="text" id="userName" name="userName"/><br/>
+    <span>密  码：</span><input type="password" id="password" name="password"/><br/>
+    <input type="button" onclick="login()" value="登陆"/><br/>
+    <input type="reset" value="重置"/><br/>
+</form>
+<script src="js/jquery-3.4.1.min.js"></script>
+<script>
+    function login() {
+        var domain = window.location.host;
+        var name = document.getElementById("userName").value;
+        var password = document.getElementById("password").value;
+        var data={"id": 0, "name": name, "password": password};
+        $.ajax({
+            type:"POST",
+            url:"http://localhost:8080/login",
+            contentType: "application/json",
+            data:JSON.stringify(data),
+            success:function (data) {
+                alert(data.msg)
+                if (data.status === 1){
+                    document.cookie = "username=" + data.transObject.name + ";" + 'path="/"';
+                    window.location.href="http://localhost:8080/chat"
+                }
+            }
+        })
+    }
+</script>
+</body>
+</html>

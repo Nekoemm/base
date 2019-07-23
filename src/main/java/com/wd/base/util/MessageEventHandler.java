@@ -1,4 +1,4 @@
-package com.wd.util;
+package com.wd.base.util;
 
 import com.corundumstudio.socketio.AckRequest;
 import com.corundumstudio.socketio.SocketIOClient;
@@ -31,7 +31,7 @@ public class MessageEventHandler {
         if (client != null) {
             String user = client.getHandshakeData().getSingleUrlParam("user");
             String message = client.getHandshakeData().getSingleUrlParam("message");
-            String applicationId = client.getHandshakeData().getSingleUrlParam("applicationId");
+            String applicationId = "chat1";
             logger.info("连接成功, applicationId=" + applicationId + ", user=" + user +
                     ", sessionId=" + client.getSessionId().toString() );
             client.joinRoom(applicationId);
@@ -58,19 +58,21 @@ public class MessageEventHandler {
     @OnEvent(value = Socket.EVENT_MESSAGE)
     public void onEvent(SocketIOClient client, AckRequest ackRequest, Object data) {
         logger.info("接收到客户端消息");
-        if (ackRequest.isAckRequested()) {
-            // send ack response with data to client
-            ackRequest.sendAckData("服务器回答Socket.EVENT_MESSAGE", "好的");
-        }
+        server.getBroadcastOperations().sendEvent("message", data);
+        logger.info("广播消息成功");
+//        if (ackRequest.isAckRequested()) {
+//            // send ack response with data to client
+//            ackRequest.sendAckData("服务器回答Socket.EVENT_MESSAGE", "好的");
+//        }
     }
 
     // 广播消息接收入口
     @OnEvent(value = "broadcast")
-    public void onBroadcast(SocketIOClient client, AckRequest ackRequest, Object data) {
+    public void onBroadcast(SocketIOClient client, AckRequest ackRequest, ChatObject data) {
         logger.info("接收到广播消息");
         // 房间广播消息
-        String room = client.getHandshakeData().getSingleUrlParam("appid");
-        server.getRoomOperations(room).sendEvent("broadcast", "广播啦啦啦啦");
+        String room = client.getHandshakeData().getSingleUrlParam("char1");
+        server.getRoomOperations(room).sendEvent("broadcast", data);
     }
 
     /**
@@ -80,22 +82,11 @@ public class MessageEventHandler {
      * @param param 报告地址参数
      */
     @OnEvent(value = "doReport")
-    public void onDoReport(SocketIOClient client, AckRequest ackRequest, MessageDto param) {
+    public void onDoReport(SocketIOClient client, AckRequest ackRequest, ChatObject param) {
         logger.info("报告地址接口 start....");
         ackRequest.sendAckData(param);
     }
 
-    /*----------------------------------------下面是私有方法-------------------------------------*/
-//    private BaseResponse postReport(MessageDto param) {
-//        BaseResponse result = new BaseResponse();
-//        int r = apiService.report(param);
-//        if (r > 0) {
-//            result.setSuccess(true);
-//            result.setMsg("报告地址成功");
-//        } else {
-//            result.setSuccess(false);
-//            result.setMsg("该POS机还没有入网，报告地址失败。");
-//        }
-//        return result;
-//    }
+
+
 }

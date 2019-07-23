@@ -1,16 +1,21 @@
 server:
   port: 8080
 spring:
+  http:
+    encoding:
+      force: true
+      charset: UTF-8
   freemarker:
-    template-loader-path: classpath:/templates
+    allow-request-override: false
     cache: false
-    charset: UTF-8
     check-template-location: true
-    content-type: text/html
+    charset: UTF-8
+    content-type: text/html; charset=utf-8
     expose-request-attributes: false
     expose-session-attributes: false
-    request-context-attribute: request
-    suffix: ftl
+    expose-spring-macro-helpers: false
+    suffix: .ftl
+    template-loader-path: classpath:/templates
   datasource:
     username: root
     password: root
@@ -27,3 +32,7 @@ logging:
       wd:
         base:
           dao: debug
+wss:
+  server:
+    port: 9999
+    host: localhost
